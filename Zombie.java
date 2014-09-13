@@ -26,6 +26,7 @@ public class Zombie extends Entity {
 		int randX = (int) (Math.random() * upperBoundX);
 		int randY = (int) (Math.random() * upperBoundY);
 		
+		//TODO: add if statements for illegal moves
 		setCoords(randX, randY);
 	}
 }
