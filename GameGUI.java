@@ -8,6 +8,8 @@ public class GameGUI extends JFrame implements KeyListener{
 
 	private final int WIDTH = 640;
 	private final int HEIGHT = 640;
+
+	//resolution of our game
 	private final int DIMX = 20;
 	private final int DIMY = 20;
 	
@@ -15,11 +17,11 @@ public class GameGUI extends JFrame implements KeyListener{
 	private int keyInput = 0;
 	
 	public GameGUI(){
-      setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-      addKeyListener(this);
-      addComponentsToPane();
-      pack();
-      setVisible(true);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+      		addKeyListener(this);
+      		addComponentsToPane();
+      		pack();
+      		setVisible(true);
     }
     
     private void addComponentsToPane() {
