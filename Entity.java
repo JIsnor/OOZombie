@@ -66,5 +66,4 @@ public class Entity {
 	public int[] getCoords() {
 		return new int[]{coords[X], coords[Y]};
 	}
-
 }

@@ -1,4 +1,7 @@
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 
 public class GameDriver {
@@ -21,7 +24,7 @@ public class GameDriver {
 	}
 	
 	private void oneRound(){
-		moveEntities();
+//		moveEntities();
 		updateView();
 	}
 	
@@ -38,26 +41,26 @@ public class GameDriver {
 		view.repaint();
 	}
 	
-	private void moveEntities(){
-		for(Entity entity : model.entities){
-			
-			//keep track of entity's original position so we can clean it later
-			int[] originalCoords = new int[]{entity.coords[0], entity.coords[1]};
-			
-			if(entity.representation == Representation.ZOMBIE){
-				//continue attempting to move the zombie in randomly-generated directions until successful
-				while( !entity.move(Direction.randomDirection(), model.grid) );
-				dirtySquares.add(originalCoords);
-			}
-			
-			if(entity.representation == Representation.HUMAN){
-				if(entity.move(Direction.intToDirection(view.getKey()), model.grid)){
-					//if the player moved successfully, their previous position is now dirty
-					dirtySquares.add(originalCoords);
-				}
-			}
-		}
-	}
+//	private void moveEntities(){
+//		for(Entity entity : model.entities){
+//			
+//			//keep track of entity's original position so we can clean it later
+//			int[] originalCoords = new int[]{entity.coords[0], entity.coords[1]};
+//			
+//			if(entity.representation == Representation.ZOMBIE){
+//				//continue attempting to move the zombie in randomly-generated directions until successful
+//				while( !entity.move(Direction.randomDirection(), model.grid) );
+//				dirtySquares.add(originalCoords);
+//			}
+//			
+//			if(entity.representation == Representation.HUMAN){
+//				if(entity.move(Direction.intToDirection(view.getKey()), model.grid)){
+//					//if the player moved successfully, their previous position is now dirty
+//					dirtySquares.add(originalCoords);
+//				}
+//			}
+//		}
+//	}
 	
 	private boolean gameOver(){
 		return false;
@@ -74,9 +77,10 @@ public class GameDriver {
 
 			try {
 				Thread.sleep(FRAME_LENGTH);
-			} catch (InterruptedException e) {}
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 			System.out.println("frame " + frames++);
 		}
 	}
-
 }
