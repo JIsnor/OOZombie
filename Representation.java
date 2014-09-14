@@ -15,4 +15,19 @@ public enum Representation {
 			return 'U';
 		}
 	}
+	
+	public static Representation stringToRep(String s) {
+		
+		switch(s) {
+		
+		case "Z":
+		case "z":
+			return ZOMBIE;
+		case "H":
+		case "h":
+			return HUMAN;
+		default:
+			return null;
+		}
+	}
 }

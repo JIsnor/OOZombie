@@ -11,7 +11,7 @@
  * The top of the hierarchy, an Entity is a char with an x,y position
  * and a name. The Representation denotes what the entity is, e.g. Zombie, Human.
  * Additionally, they have names, e.g. Hunter Bill --> (Representation.HUMAN, x, y, "Bill")
- * @author James Isnor
+ * @author James Isnor and Benji
  *
  */
 public class Entity {
@@ -66,5 +66,4 @@ public class Entity {
 	public int[] getCoords() {
 		return new int[]{coords[X], coords[Y]};
 	}
-
 }

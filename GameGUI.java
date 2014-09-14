@@ -4,88 +4,74 @@ import java.awt.*;
 
 import javax.swing.*;
 
-public class GameGUI extends JFrame implements KeyListener{
+public class GameGUI extends JFrame implements KeyListener {
 
+	// I don't know what this variable does, but it makes eclipse happy
+	private static final long serialVersionUID = 1L;
 	private final int WIDTH = 640;
 	private final int HEIGHT = 640;
 
-	//resolution of our game
-	private final int DIMX = 20;
-	private final int DIMY = 20;
-	
-	MyBufferedImage buffImage;
+	private int dimensionX;
+	private int dimensionY;
+
+	GameBufferedImage buffImage;
 	private int keyInput = 0;
-	
-	public GameGUI(){
+
+	public GameGUI(int dimensionX, int dimensionY) {
+		this.dimensionX = dimensionX;
+		this.dimensionY = dimensionY;
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-      		addKeyListener(this);
-      		addComponentsToPane();
-      		pack();
-      		setVisible(true);
-    }
-    
-    private void addComponentsToPane() {
-        buffImage = new MyBufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
-        ImageIcon icon = new ImageIcon(buffImage);
-        JLabel label = new JLabel(icon);
-        add(label);
-    }
+		addKeyListener(this);
+		addComponentsToPane();
+		pack();
+		setVisible(true);
+	}
 
-    public int getKey(){
-    	int keyHolder = keyInput;
-    	keyInput = -1;
-    	return keyHolder;
-    }
-    
-    public void addCharacter(char representation, int[] coords){
-    	buffImage.drawCharacter(representation, coords);
-    }
-    
-    /* Unused method from KeyListener interface */
-    public void keyTyped(KeyEvent e) {}
+	private void addComponentsToPane() {
+		buffImage = new GameBufferedImage(WIDTH, HEIGHT,
+				BufferedImage.TYPE_INT_RGB, WIDTH / dimensionX, HEIGHT
+						/ dimensionY);
+		ImageIcon icon = new ImageIcon(buffImage);
+		JLabel label = new JLabel(icon);
+		add(label);
+	}
 
-    /* Unused method from KeyListener interface */
-    public void keyReleased(KeyEvent e) {}
-    
-    public void keyPressed(KeyEvent e) {
-    	int keyCode = e.getKeyCode();
-    	if(keyCode >= 37 && keyCode <= 40){
-        	keyInput = keyCode;
-        }
-    }
-    
-    //MyBufferedImage------------------------------------------------------------------------//
-    
-    class MyBufferedImage extends BufferedImage{
-    	
-		public MyBufferedImage(int width, int height, int imageType) {
-			super(width, height, imageType);
+	public void addCharacter(char representation, int[] coords) {
+		buffImage.drawCharacter(representation, coords);
+	}
+
+	public void addSquare(int[] coords, boolean traversable) {
+		buffImage.drawSquare(coords, traversable);
+	}
+
+	// returns key and resets the stored key value
+	public int getKey() {
+		int keyTemp = keyInput;
+		keyInput = -1;
+		return keyTemp;
+	}
+
+	/* Unused method from KeyListener interface */
+	public void keyTyped(KeyEvent e) {
+	}
+
+	/* Unused method from KeyListener interface */
+	public void keyReleased(KeyEvent e) {
+	}
+
+	/* event listener from KeyListener interface */
+	public void keyPressed(KeyEvent e) {
+		//this statement prevents another key from being read until the previous keyInput is processed
+		if (keyInput == -1) {
+			int keyCode = e.getKeyCode();
+			// if the key is an arrow key...
+			if (keyCode >= 37 && keyCode <= 40) {
+				keyInput = keyCode;
+			}
+
+			System.out.println("I got a key. It was " + keyInput);
 		}
+	}
 
-		public void drawCharacter(char representation, int[] coords){
-			Graphics2D g2 = this.createGraphics();
-			
-			Color color = Color.WHITE;
-			int dimensionX = WIDTH / DIMX;
-			int dimensionY = HEIGHT / DIMY;
-			
-			g2.setPaint(color);
-			g2.setFont(new Font(Font.MONOSPACED, Font.PLAIN, dimensionY));
-			
-			g2.drawString("" + representation, coords[0] * dimensionX, coords[1] * dimensionY);
-    	}
-    }
-    
-    public static void main(String[] args){
-    	GameGUI myGUI = new GameGUI();
-    	int[] coords1 = {1, 1};
-//    	int[] coords2 = {0, 0};
-    	int[] coords3 = {0, 1};
-    	
-    	
-    	myGUI.addCharacter('Z', coords1);
-//    	myGUI.addCharacter('Z', coords2);
-    	myGUI.addCharacter('Z', coords3);
-    }
-    
 }
