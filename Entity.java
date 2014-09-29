@@ -8,29 +8,36 @@
  */
 
 /**
- * The top of the hierarchy, an Entity is a char with an x,y position
- * and a name. The Representation denotes what the entity is, e.g. Zombie, Human.
- * Additionally, they have names, e.g. Hunter Bill --> (Representation.HUMAN, x, y, "Bill")
- * @author James Isnor and Benji
- *
+ * The top of the hierarchy, an Entity is a char with an x,y position and a
+ * name. The Representation denotes what the entity is, e.g. Zombie, Human.
+ * Additionally, they have names, e.g. Hunter Bill --> (Representation.HUMAN, x,
+ * y, "Bill")
+ * 
+ * @author James Isnor
+ * 
  */
 public class Entity {
-	
-	//to use with our array of coords
+
+	// to use with our array of coords
 	private final int X = 0;
 	private final int Y = 1;
-	
+
 	protected Representation representation;
 	protected int[] coords;
 	protected String name = null;
-	
+
 	/**
 	 * The only constructor for Entities.
-	 * @param representation - the character associated with what kind of Entity
-	 * this is, e.g. 'Z', 'H', etc.
-	 * @param x - the coordinate
-	 * @param y - the y coordinate
-	 * @param name - the Entity's name
+	 * 
+	 * @param representation
+	 *            - the character associated with what kind of Entity this is,
+	 *            e.g. 'Z', 'H', etc.
+	 * @param x
+	 *            - the coordinate
+	 * @param y
+	 *            - the y coordinate
+	 * @param name
+	 *            - the Entity's name
 	 */
 	public Entity(Representation representation, int x, int y, String name) {
 		this.representation = representation;
@@ -39,31 +46,54 @@ public class Entity {
 		coords[X] = x;
 		coords[Y] = y;
 	}
-	
-	/**
-	 * Change the coordinates of the Entity by the specified
-	 * amounts. 
-	 * @param x the value to add to the x coord of this Entity
-	 * @param y the value to add to the y coord of this Entity
-	 */
-	public void changeCoordsBy(int x, int y) {
-		coords[X] += x;
-		coords[Y] += y;
+
+	public boolean move(Direction direction, boolean[][] grid) {
+		if (direction == null) {
+			return false;
+		}
+
+		boolean valid = false;
+		switch (direction) {
+		case UP:
+			// valid we aren't at the top edge and the square above us isn't a wall
+			valid = (coords[Y] != grid[0].length - 1)
+					&& (grid[coords[X]][coords[Y] + 1]);
+			if (valid) {
+				coords[Y]++;
+			}
+			break;
+		case DOWN:
+			// valid we aren't at the bottom edge and the square below us isn't a wall
+			valid = (coords[Y] != 0) && (grid[coords[X]][coords[Y] - 1]);
+			if (valid) {
+				coords[Y]--;
+			}
+			break;
+		case LEFT:
+			// valid we aren't at the left edge and the square to our left isn't a wall
+			valid = (coords[X] != 0) && (grid[coords[X] - 1][coords[Y]]);
+			if (valid) {
+				coords[X]--;
+			}
+			break;
+		case RIGHT:
+			// valid we aren't at the right edge and the square to our right isn't a wall
+			valid = (coords[X] != grid[0].length - 1) && (grid[coords[X] + 1][coords[Y]]);
+			if (valid) {
+				coords[X]++;
+			}
+			break;
+		}
+		return valid;
 	}
-	
-	//BELOW THIS LINE LIE GETTERS AND SETTERS (AND RED-SWEATERS)
-	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	
-	public void setCoords(int x, int y) {
-		coords[X] = y;
-		coords[Y] = y;
-	}
-	
+
+	// GETTERS AND SETTERS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 	public char getRepresentation() {
 		return representation.getCharRep();
 	}
-	
+
 	public int[] getCoords() {
-		return new int[]{coords[X], coords[Y]};
+		return new int[] { coords[X], coords[Y] };
 	}
 }
