@@ -1,4 +1,5 @@
 import static org.junit.Assert.*;
+import junit.textui.TestRunner;
 
 import org.junit.After;
 import org.junit.Before;
@@ -27,7 +28,7 @@ public class TestHuman {
 	public void testHuman() {
 		
 		assertNotEquals("Name is non-null: ", h.name, null);
-		fail("Not yet implemented");
+//		fail("Not yet implemented");
 	}
 
 	@Test
@@ -36,14 +37,14 @@ public class TestHuman {
 		int oldHealth = h.getHealth();
 		h.eatFruit(f);
 		assertEquals("eatFruit works: ", h.getHealth(), oldHealth + f.getNutrition());
-		fail("Not yet implemented");
+//		fail("Not yet implemented");
 	}
 
 	@Test
 	public void testGetHealth() {
 		
 		assertTrue(h.getHealth() + f.getNutrition() > h.getHealth());
-		fail("Not yet implemented");
+//		fail("Not yet implemented");
 	}
 
 	@Test
@@ -51,7 +52,7 @@ public class TestHuman {
 		
 		h.setHealth(100);
 		assertTrue(h.getHealth() == 100);
-		fail("Not yet implemented");
+//		fail("Not yet implemented");
 	}
 
 	@Test
@@ -60,7 +61,7 @@ public class TestHuman {
 		assertTrue(h.coords != null);
 		assertTrue(h.representation != null);
 		assertTrue(h.name != null);
-		fail("Not yet implemented");
+//		fail("Not yet implemented");
 	}
 
 	@Test
@@ -74,7 +75,7 @@ public class TestHuman {
 		h.changeCoordsBy(X_CHANGE, Y_CHANGE);
 		assertEquals("Change coords works: ", h.getCoords()[0], oldX + X_CHANGE);
 		assertEquals("Change coords works: ", h.getCoords()[1], oldY + Y_CHANGE);
-		fail("Not yet implemented");
+//		fail("Not yet implemented");
 	}
 
 	@Test
@@ -87,20 +88,25 @@ public class TestHuman {
 		h.setCoords(SET_X, SET_Y);
 		assertTrue(h.getCoords()[0] == SET_X);
 		assertTrue(h.getCoords()[1] == SET_Y);
-		fail("Not yet implemented");
+//		fail("Not yet implemented");
 	}
 
 	@Test
 	public void testGetRepresentation() {
 		
-		assertEquals("getRepresentation works", h.getRepresentation(), h.representation);
-		fail("Not yet implemented");
+		assertEquals("getRepresentation works", h.getRepresentation(), h.representation.getCharRep());
+//		fail("Not yet implemented");
 	}
 
 	@Test
 	public void testGetCoords() {
 		assertEquals("getCoords works", h.getCoords(), h.coords);
-		fail("Not yet implemented");
+//		fail("Not yet implemented");
+	}
+	
+	public static void main(String[] args) {
+		
+		
 	}
 
 }
