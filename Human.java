@@ -16,7 +16,9 @@ public class Human extends Entity {
 		return health;
 	}
 	
-	public void setHealth(int newHealth) {
+	public boolean setHealth(int newHealth) {
+		
 		health = newHealth;
+		return health == newHealth;
 	}
 }

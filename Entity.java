@@ -55,7 +55,7 @@ public class Entity {
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	
 	public void setCoords(int x, int y) {
-		coords[X] = y;
+		coords[X] = x;
 		coords[Y] = y;
 	}
 	
@@ -64,6 +64,6 @@ public class Entity {
 	}
 	
 	public int[] getCoords() {
-		return new int[]{coords[X], coords[Y]};
+		return coords;
 	}
 }

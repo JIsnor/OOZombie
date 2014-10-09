@@ -4,6 +4,7 @@
  * @author James Isnor and Benji
  * 
  */
+
 public enum Direction {
 	UP, LEFT, DOWN, RIGHT;
 

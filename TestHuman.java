@@ -10,18 +10,19 @@ public class TestHuman {
 	
 	Human h;
 	Fruit f;;
-	
-	public TestHuman() {
+
+	@Before
+	public void setUp() throws Exception {
+		
 		h = new Human(0, 0, "test");
 		f = new Fruit(2,3);
 	}
 
-	@Before
-	public void setUp() throws Exception {
-	}
-
 	@After
 	public void tearDown() throws Exception {
+		
+		h = null;
+		f = null;
 	}
 
 	@Test
