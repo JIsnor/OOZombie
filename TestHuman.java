@@ -9,12 +9,14 @@ import org.junit.Test;
 public class TestHuman {
 	
 	Human h;
-	Fruit f;;
+	Fruit f;
+	Zombie z;
 
 	@Before
 	public void setUp() throws Exception {
 		
-		h = new Human(0, 0, "test");
+		h = new Human(0, 0, "testH");
+		z = new Zombie(1,1,"testZ");
 		f = new Fruit(2,3);
 	}
 
@@ -44,18 +46,28 @@ public class TestHuman {
 	@Test
 	public void testGetHealth() {
 		
-		assertTrue(h.getHealth() + f.getNutrition() > h.getHealth());
+		assertTrue(h.getHealth() > 0);
 //		fail("Not yet implemented");
 	}
 
 	@Test
 	public void testSetHealth() {
-		
-		h.setHealth(100);
-		assertTrue(h.getHealth() == 100);
-//		fail("Not yet implemented");
+		int newHealth = 120;
+		h.setHealth(newHealth);
+		assertTrue(h.getHealth() == newHealth);
+
+		newHealth = -120;
+		h.setHealth(newHealth);
+		assertTrue(h.getHealth() == newHealth);
 	}
 
+	@Test
+	public void testTakeDamage(){
+		int oldHealth = h.getHealth();
+		h.getBitten(z);
+		assertTrue(h.getHealth() + z.getDamageInflicted() == oldHealth);
+	}
+	
 	@Test
 	public void testEntity() {
 		
@@ -105,9 +117,7 @@ public class TestHuman {
 //		fail("Not yet implemented");
 	}
 	
-	public static void main(String[] args) {
-		
-		
+	public static void main(String[] args) {	
 	}
 
 }
