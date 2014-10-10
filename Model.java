@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 /**
- * Whoop de fucking doo, I made a javadoc comment
  * @author Benji
  *
  */
@@ -30,8 +29,8 @@ public class Model {
 		}
 		
 		//place a single zombie and human at opposite corners
-		entities.add(new Entity(Representation.HUMAN, 0, 0, "Benji"));
-		entities.add(new Entity(Representation.ZOMBIE, DIMENSION_X - 1, DIMENSION_Y - 1, "James"));
+		//entities.add(new Entity(Representation.HUMAN, 0, 0, "Benji"));
+		//entities.add(new Entity(Representation.ZOMBIE, DIMENSION_X - 1, DIMENSION_Y - 1, "James"));
 		
 	}
 	
