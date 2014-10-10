@@ -16,9 +16,11 @@ public class Human extends Entity {
 		return health;
 	}
 	
-	public boolean setHealth(int newHealth) {
-		
+	public void setHealth(int newHealth) {
 		health = newHealth;
-		return health == newHealth;
+	}
+	
+	public void getBitten(Zombie zombie){
+		setHealth(health - zombie.getDamageInflicted());
 	}
 }
