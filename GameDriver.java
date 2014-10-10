@@ -14,7 +14,7 @@ public class GameDriver {
 	ArrayList<int[]> dirtySquares = new ArrayList<int[]>();
 	
 	//draws empty game board with walls and floors
-	private void initializeBoard(){
+	void initializeBoard(){
 		for(int x = 0; x < model.DIMENSION_X; x++){
 			for(int y = 0; y < model.DIMENSION_Y; y++){
 				view.addSquare(new int[]{x, y}, model.grid[x][y]);
@@ -62,8 +62,30 @@ public class GameDriver {
 //		}
 //	}
 	
-	private boolean gameOver(){
-		return false;
+	void zombieBitesHuman(Zombie zombie, Human human){
+		human.getBitten(zombie);
+		if (human.getHealth() <= 0){
+			model.entities.remove(human);
+		}
+	}
+	
+	public boolean gameOver(){
+		
+		//I arbitrarily decided the following loss conditions:
+		//if no human is on the board, game over man (loss)
+		//if no fruit is on the board, game over man (win)
+
+		boolean anyHumans = false;
+		for(Entity entity: model.entities){
+			anyHumans = anyHumans || entity instanceof Human;
+		}
+		
+		boolean anyFruits = false;
+		for(Entity entity: model.entities){
+			anyFruits = anyFruits || entity instanceof Fruit;
+		}
+		
+		return !anyFruits || !anyHumans;
 //		TODO: put in a real terminating condition
 	}
 	
@@ -82,5 +104,10 @@ public class GameDriver {
 			}
 			System.out.println("frame " + frames++);
 		}
+	}
+
+	public void humanEatsFruit(Human fauna, Fruit flora) {
+		fauna.eatFruit(flora);
+		model.entities.remove(flora);
 	}
 }
