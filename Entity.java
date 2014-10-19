@@ -46,24 +46,23 @@ public class Entity {
 	 * @param x the value to add to the x coord of this Entity
 	 * @param y the value to add to the y coord of this Entity
 	 */
-	public void changeCoordsBy(int x, int y) {
-		coords[X] += x;
-		coords[Y] += y;
+	public void changeCoordsBy(int xOffset, int yOffset) {
+		coords[X] += xOffset;
+		coords[Y] += yOffset;
 	}
 	
 	//BELOW THIS LINE LIE GETTERS AND SETTERS (AND RED-SWEATERS)
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	
-	public void setCoords(int x, int y) {
-		coords[X] = y;
-		coords[Y] = y;
+	public void setCoords(int[] coords) {
+		this.coords = coords;
 	}
-	
-	public char getRepresentation() {
+		
+	public char getCharRepresentation() {
 		return representation.getCharRep();
 	}
 	
 	public int[] getCoords() {
-		return new int[]{coords[X], coords[Y]};
+		return coords;
 	}
 }

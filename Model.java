@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 /**
- * Whoop de fucking doo, I made a javadoc comment
  * @author Benji
  *
  */
@@ -16,12 +15,13 @@ public class Model {
 	final int DIMENSION_Y = 20;
 	
 	//grid of traversable space
-	boolean[][] grid = new boolean[DIMENSION_X][DIMENSION_Y];
+	private boolean[][] grid = new boolean[DIMENSION_X][DIMENSION_Y];
 
 	//all moving entities
 	ArrayList<Entity> entities = new ArrayList<Entity>();
 	
 	//dummy constructor
+
 	public Model(){
 		
 		//paint array with 1's
@@ -29,16 +29,14 @@ public class Model {
 			Arrays.fill(row, true);
 		}
 		
-		//place a single zombie and human at opposite corners
-		entities.add(new Entity(Representation.HUMAN, 0, 0, "Benji"));
-		entities.add(new Entity(Representation.ZOMBIE, DIMENSION_X - 1, DIMENSION_Y - 1, "James"));
+		//initial state for testing
+		entities.add(new Human(0, 0, "Benji"));
+		entities.add(new Fruit(DIMENSION_X / 2, DIMENSION_Y / 2));
+		entities.add(new Zombie(DIMENSION_X - 1, DIMENSION_Y - 1, "James"));
 		
 	}
 	
-	//Dunno if separating this from the method itself is good or not.
-	//figure it's flexible, if a little redundant.
-	public Model(File f) {
-		
+	public Model(File f) {		
 		getModelFromFile(f);
 	}
 	
@@ -76,5 +74,19 @@ public class Model {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public boolean getTileTraversible(int[] coords){
+		if(coords.length != 2){
+			System.out.println("error in getTileTraversible:\n  method must take a coordinate pair of length 2, instead received array " + coords);
+			System.exit(-1);
+		}
+		
+		if(coords[0] > grid.length - 1 || coords[1] > grid[0].length - 1){
+			System.out.println("error in getTileTraversible: attempted to access tile out of bounds:\n  dimensions are " + 
+					grid.length + ", " + grid[0].length + ", and attempted to access index " + coords[0] + ", " + coords[1]);
+		}
+		
+		return grid[coords[0]][coords[1]];
 	}
 }

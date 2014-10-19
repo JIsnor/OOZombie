@@ -9,62 +9,95 @@ public class GameDriver {
 	//sleep time between game frames
 	private final static int FRAME_LENGTH = 150;
 	
+	//contains game state and methods to initialize game
 	Model model = new Model();
-	GameGUI view = new GameGUI(model.DIMENSION_X, model.DIMENSION_Y); 
+	
+	//view is an extension of a JFrame
+	GameFrame view = new GameFrame(model.DIMENSION_X, model.DIMENSION_Y); 
+
+	//contains coordinates of squares that need to be redrawn
 	ArrayList<int[]> dirtySquares = new ArrayList<int[]>();
 	
-	//draws empty game board with walls and floors
-	private void initializeBoard(){
+	//fill the view with the contents of the model
+	void initializeBoard(){
 		for(int x = 0; x < model.DIMENSION_X; x++){
 			for(int y = 0; y < model.DIMENSION_Y; y++){
-				view.addSquare(new int[]{x, y}, model.grid[x][y]);
+				int[] coords = new int[]{x, y};
+				view.addSquare(coords, model.getTileTraversible(coords));
 			}
 		}
 		view.repaint();
 	}
 	
 	private void oneRound(){
-//		moveEntities();
+		moveEntities();
 		updateView();
 	}
 	
 	private void updateView(){
 		
 		for (int[] coords : dirtySquares){
-			view.addSquare(coords, true);
+			view.addSquare(coords, model.getTileTraversible(coords));
 		}
+	
 		dirtySquares.clear();
 		
 		for (Entity entity : model.entities){		
-			view.addCharacter(entity.getRepresentation(), entity.getCoords());
+			view.addCharacter(entity.getCharRepresentation(), entity.getCoords());
 		}
 		view.repaint();
 	}
 	
-//	private void moveEntities(){
-//		for(Entity entity : model.entities){
-//			
-//			//keep track of entity's original position so we can clean it later
-//			int[] originalCoords = new int[]{entity.coords[0], entity.coords[1]};
-//			
-//			if(entity.representation == Representation.ZOMBIE){
-//				//continue attempting to move the zombie in randomly-generated directions until successful
-//				while( !entity.move(Direction.randomDirection(), model.grid) );
-//				dirtySquares.add(originalCoords);
-//			}
-//			
-//			if(entity.representation == Representation.HUMAN){
-//				if(entity.move(Direction.intToDirection(view.getKey()), model.grid)){
-//					//if the player moved successfully, their previous position is now dirty
-//					dirtySquares.add(originalCoords);
-//				}
-//			}
-//		}
-//	}
+	private void moveEntities(){
+		for(Entity entity : model.entities){
+			
+			//keep track of entity's original position so we can clean it later
+			int[] originalCoords = new int[]{entity.coords[0], entity.coords[1]};
+			
+			if(entity instanceof Zombie){
+				((Zombie) entity).saunter();
+				dirtySquares.add(originalCoords);
+			}
+			
+			if(entity instanceof Human){
+				Direction movement = Direction.intToDirection(view.getKey());
+				if(movement != null){
+					((Human) entity).move(movement);
+					dirtySquares.add(originalCoords);
+				}
+			}
+		}
+	}
 	
-	private boolean gameOver(){
-		return false;
-//		TODO: put in a real terminating condition
+	void zombieBitesHuman(Zombie zombie, Human human){
+		human.getBitten(zombie);
+		if (human.getHealth() <= 0){
+			model.entities.remove(human);
+		}
+	}
+	
+	public void humanEatsFruit(Human fauna, Fruit flora) {
+		fauna.eatFruit(flora);
+		model.entities.remove(flora);
+	}
+	
+	public boolean gameOver(){
+		
+		//I arbitrarily decided the following loss conditions:
+		//if no human is on the board, game over man (loss)
+		//if no fruit is on the board, game over man (win)
+
+		boolean anyHumans = false;
+		for(Entity entity: model.entities){
+			anyHumans = anyHumans || entity instanceof Human;
+		}
+		
+		boolean anyFruits = false;
+		for(Entity entity: model.entities){
+			anyFruits = anyFruits || entity instanceof Fruit;
+		}
+		
+		return !anyFruits || !anyHumans;
 	}
 	
 	public static void main(String[] args) {
@@ -82,5 +115,5 @@ public class GameDriver {
 			}
 			System.out.println("frame " + frames++);
 		}
-	}
+	}	
 }

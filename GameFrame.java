@@ -4,7 +4,7 @@ import java.awt.*;
 
 import javax.swing.*;
 
-public class GameGUI extends JFrame implements KeyListener {
+public class GameFrame extends JFrame implements KeyListener {
 
 	// I don't know what this variable does, but it makes eclipse happy
 	private static final long serialVersionUID = 1L;
@@ -17,7 +17,7 @@ public class GameGUI extends JFrame implements KeyListener {
 	GameBufferedImage buffImage;
 	private int keyInput = 0;
 
-	public GameGUI(int dimensionX, int dimensionY) {
+	public GameFrame(int dimensionX, int dimensionY) {
 		this.dimensionX = dimensionX;
 		this.dimensionY = dimensionY;
 

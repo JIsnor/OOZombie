@@ -1,6 +1,6 @@
 
 public enum Representation {
-	ZOMBIE, HUMAN, WALL;
+	ZOMBIE, HUMAN, WALL, FRUIT;
 	
 	public char getCharRep() {
 		switch(this) {
@@ -10,6 +10,8 @@ public enum Representation {
 		case HUMAN:
 			return 'H';
 		case WALL:
+			return 'W';
+		case FRUIT:
 			return 'W';
 		default:
 			return 'U';
@@ -26,6 +28,9 @@ public enum Representation {
 		case "H":
 		case "h":
 			return HUMAN;
+		case "F":
+		case "f":
+			return FRUIT;
 		default:
 			return null;
 		}
