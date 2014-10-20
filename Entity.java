@@ -51,11 +51,36 @@ public class Entity {
 		coords[Y] += yOffset;
 	}
 	
+	public void changeCoordsBy(int xOffset, int yOffset, int xBound, int yBound) {
+		int x = coords[X] + xOffset;
+		int y = coords[Y] + yOffset;
+		if(x > 0 && x < xBound) {
+			coords[X] = x;
+		}
+		if(y > 0 && y < yBound) {
+			coords[Y] = y;
+		}
+	}
+	
 	//BELOW THIS LINE LIE GETTERS AND SETTERS (AND RED-SWEATERS)
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	
 	public void setCoords(int[] coords) {
 		this.coords = coords;
+	}
+	
+	public void setCoords(int x, int y) {
+		coords[X] = x;
+		coords[Y] = y;
+	}
+	
+	public void setCoords(int x, int y, int xBound, int yBound) {
+		if(x > 0 && x < xBound) {
+			coords[X] = x;
+		}
+		if(y > 0 && y < yBound) {
+			coords[Y] = y;
+		}
 	}
 		
 	public char getCharRepresentation() {

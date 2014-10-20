@@ -7,11 +7,12 @@ public class Zombie extends Entity {
 		super(Representation.ZOMBIE, x, y, name);
 	}
 	
-	public void saunter() {
+	public int[] saunter() {
 		//generate random x and y offsets in the range (-1, 1)
-		int xOffset = (int) (Math.ceil(Math.random() * 3) - 1.5);
-		int yOffset = (int) (Math.ceil(Math.random() * 3) - 1.5);
-		this.changeCoordsBy(xOffset, yOffset);
+		int xOffset = ((int) (Math.random()*2.5)) - 1;
+		int yOffset = ((int) (Math.random()*2.5)) - 1;
+		
+		return new int[]{xOffset, yOffset};
 	}
 	
 	public int getDamageInflicted() {

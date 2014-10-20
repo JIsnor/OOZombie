@@ -107,6 +107,6 @@ public class TestHuman {
 
 	@Test
 	public void testGetRepresentation() {
-		assertEquals("getRepresentation works", h.getRepresentation(), h.representation.getCharRep());
+		assertEquals("getRepresentation works", Representation.HUMAN.getCharRep(), h.representation.getCharRep());
 	}
 }

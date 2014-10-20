@@ -30,9 +30,9 @@ public class Model {
 		}
 		
 		//initial state for testing
-		entities.add(new Human(0, 0, "Benji"));
+		entities.add(new Human(7, 7, "Benji"));
 		entities.add(new Fruit(DIMENSION_X / 2, DIMENSION_Y / 2));
-		entities.add(new Zombie(DIMENSION_X - 1, DIMENSION_Y - 1, "James"));
+		entities.add(new Zombie(DIMENSION_X - 10, DIMENSION_Y - 10, "James"));
 		
 	}
 	

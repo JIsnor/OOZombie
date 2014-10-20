@@ -18,11 +18,11 @@ public enum Direction {
 		case 37:
 			return Direction.LEFT;
 		case 38:
-			return Direction.DOWN;
+			return Direction.UP;
 		case 39:
 			return Direction.RIGHT;
 		case 40:
-			return Direction.UP;
+			return Direction.DOWN;
 		default:
 			return null;
 		}

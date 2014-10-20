@@ -23,18 +23,24 @@ public class Human extends Entity {
 		setHealth(health - zombie.getDamageInflicted());
 	}
 
-	// TODO: find a way to handle moving off the board or into walls
-	public void move(Direction d) {
-		
+	public void move(Direction d, int boundX, int boundY) {
 		switch (d) {
 			case UP:
-				changeCoordsBy(0, 1);
+				changeCoordsBy(0, -1, boundX, boundY);
+//				System.out.println("Moved up!");
+				break;
 			case DOWN:
-				changeCoordsBy(0, -1);
+				changeCoordsBy(0, 1, boundX, boundY);
+//				System.out.println("Moved down!");
+				break;
 			case LEFT:
-				changeCoordsBy(-1, 0);
+				changeCoordsBy(-1, 0, boundX, boundY);
+//				System.out.println("Moved left!");
+				break;
 			case RIGHT:
-				changeCoordsBy(1, 0);
+				changeCoordsBy(1, 0, boundX, boundY);
+//				System.out.println("Moved right!");
+				break;
 		}
 	}
 }

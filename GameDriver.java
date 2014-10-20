@@ -32,6 +32,7 @@ public class GameDriver {
 	private void oneRound(){
 		moveEntities();
 		updateView();
+		eatHumansAndFruit();
 	}
 	
 	private void updateView(){
@@ -49,27 +50,62 @@ public class GameDriver {
 	}
 	
 	private void moveEntities(){
+		
 		for(Entity entity : model.entities){
 			
 			//keep track of entity's original position so we can clean it later
 			int[] originalCoords = new int[]{entity.coords[0], entity.coords[1]};
 			
 			if(entity instanceof Zombie){
-				((Zombie) entity).saunter();
+				//Keep Zombie on the board
+				int newX, newY;
+				int[] potentialOffsets;
+				potentialOffsets = ((Zombie) entity).saunter();
+				newX = originalCoords[0] + potentialOffsets[0];
+				newY = originalCoords[1] + potentialOffsets[1];
+				
+				entity.setCoords(newX, newY, model.DIMENSION_X, model.DIMENSION_Y);
 				dirtySquares.add(originalCoords);
 			}
 			
 			if(entity instanceof Human){
 				Direction movement = Direction.intToDirection(view.getKey());
 				if(movement != null){
-					((Human) entity).move(movement);
+					System.out.println("Moved: " + movement);
+					//keep humans in check
+					((Human) entity).move(movement, model.DIMENSION_X, model.DIMENSION_Y);
 					dirtySquares.add(originalCoords);
 				}
 			}
 		}
 	}
-	
+
+	void eatHumansAndFruit() {
+		
+		for(Entity e : model.entities) {
+			
+			if(e instanceof Human) {
+				
+				for(Entity e2 : model.entities) {
+					
+					if(e2 instanceof Zombie 
+							&& e.getCoords()[0] == e2.getCoords()[0] 
+							&& e.getCoords()[1] == e2.getCoords()[1]) {
+						zombieBitesHuman((Zombie) e2, (Human) e);
+					}
+					
+					if(e2 instanceof Fruit 
+							&& e.getCoords()[0] == e2.getCoords()[0] 
+							&& e.getCoords()[1] == e2.getCoords()[1]) {
+						humanEatsFruit((Human) e, (Fruit) e2);
+					}
+				}
+			}
+		}
+	}
+
 	void zombieBitesHuman(Zombie zombie, Human human){
+		System.out.println("GET BIT");
 		human.getBitten(zombie);
 		if (human.getHealth() <= 0){
 			model.entities.remove(human);
@@ -113,7 +149,7 @@ public class GameDriver {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			System.out.println("frame " + frames++);
+//			System.out.println("frame " + frames++);
 		}
 	}	
 }
