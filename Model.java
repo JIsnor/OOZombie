@@ -20,6 +20,9 @@ public class Model {
 	//all moving entities
 	ArrayList<Entity> entities = new ArrayList<Entity>();
 	
+	//The coords for the walls
+	ArrayList<int[]> walls = new ArrayList<int[]>();
+	
 	//dummy constructor
 
 	public Model(){
@@ -28,11 +31,6 @@ public class Model {
 		for(boolean[] row : grid){
 			Arrays.fill(row, true);
 		}
-		
-		//initial state for testing
-		entities.add(new Human(7, 7, "Benji"));
-		entities.add(new Fruit(DIMENSION_X / 2, DIMENSION_Y / 2));
-		entities.add(new Zombie(DIMENSION_X - 10, DIMENSION_Y - 10, "James"));
 		
 	}
 	
@@ -47,7 +45,11 @@ public class Model {
 	 */
 	public void getModelFromFile(File inFile) {
 		
-		int numEntities, numDirtyTiles, x, y;
+		int numEntities, x, y;
+		
+		for(boolean[] row : grid){
+			Arrays.fill(row, true);
+		}
 		
 		try {
 			Scanner sc = new Scanner(inFile);
@@ -56,17 +58,33 @@ public class Model {
 			
 			//create entities, place them in the array list
 			for(int i = 0; i < numEntities; i++) {
-				Entity e = new Entity(Representation.stringToRep(sc.next()), sc.nextInt(), sc.nextInt(), sc.next());
-				entities.add(e);
-			}
-			
-			numDirtyTiles = sc.nextInt();
-			//dirty some tiles
-			for(int i = 0; i < numDirtyTiles; i++) {
-				x = sc.nextInt();
-				y = sc.nextInt();
+				Entity e = null;
+				Representation temp = Representation.stringToRep(sc.next());
+				switch(temp) {
 				
-				grid[x][y] = false;
+				case HUMAN:
+					e = new Human(sc.nextInt(), sc.nextInt(), sc.next());
+					entities.add(e);
+					break;
+				case ZOMBIE:
+					e = new Zombie(sc.nextInt(), sc.nextInt(), sc.next());
+					entities.add(e);
+					break;
+				case FRUIT:
+					e = new Fruit(sc.nextInt(), sc.nextInt());
+					entities.add(e);
+					break;
+				case WALL:
+					x = sc.nextInt();
+					y = sc.nextInt();
+					walls.add(new int[]{x,y});
+					this.grid[x][y] = false;
+					break;
+				default:
+					System.err.println("Added Entity from file from bad char - Use H, Z, F, W");
+					System.exit(-1);
+					break;
+				}
 			}
 			
 			sc.close();

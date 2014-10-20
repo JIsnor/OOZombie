@@ -43,6 +43,7 @@ public class Entity {
 	/**
 	 * Change the coordinates of the Entity by the specified
 	 * amounts. 
+	 * @deprecated ma-faka doesn't take bounds into account
 	 * @param x the value to add to the x coord of this Entity
 	 * @param y the value to add to the y coord of this Entity
 	 */
@@ -51,13 +52,19 @@ public class Entity {
 		coords[Y] += yOffset;
 	}
 	
+	/**
+	 * Change the coordinates of the Entity by the specified
+	 * amounts. 
+	 * @param x the value to add to the x coord of this Entity
+	 * @param y the value to add to the y coord of this Entity
+	 */
 	public void changeCoordsBy(int xOffset, int yOffset, int xBound, int yBound) {
 		int x = coords[X] + xOffset;
 		int y = coords[Y] + yOffset;
-		if(x > 0 && x < xBound) {
+		if(x >= 0 && x < xBound) {
 			coords[X] = x;
 		}
-		if(y > 0 && y < yBound) {
+		if(y >= 0 && y < yBound) {
 			coords[Y] = y;
 		}
 	}
@@ -69,16 +76,21 @@ public class Entity {
 		this.coords = coords;
 	}
 	
+	/**
+	 * @deprecated doesn't take bounds into account
+	 * @param x
+	 * @param y
+	 */
 	public void setCoords(int x, int y) {
 		coords[X] = x;
 		coords[Y] = y;
 	}
 	
 	public void setCoords(int x, int y, int xBound, int yBound) {
-		if(x > 0 && x < xBound) {
+		if(x >= 0 && x < xBound) {
 			coords[X] = x;
 		}
-		if(y > 0 && y < yBound) {
+		if(y >= 0 && y < yBound) {
 			coords[Y] = y;
 		}
 	}

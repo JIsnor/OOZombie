@@ -40,6 +40,10 @@ public class GameFrame extends JFrame implements KeyListener {
 	public void addCharacter(char representation, int[] coords) {
 		buffImage.drawCharacter(representation, coords);
 	}
+	
+	public void addCharacterImage(char representation, int[] coords) {
+		buffImage.drawCharacterImage(representation, coords);
+	}
 
 	public void addSquare(int[] coords, boolean traversable) {
 		buffImage.drawSquare(coords, traversable);

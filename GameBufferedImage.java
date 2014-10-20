@@ -4,7 +4,12 @@
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 	class GameBufferedImage extends BufferedImage {
 
@@ -26,6 +31,33 @@ import java.awt.image.BufferedImage;
 			g2.setFont(new Font(Font.MONOSPACED, Font.BOLD, resolutionY));
 
 			g2.drawString("" + representation, coords[0] * resolutionX, (coords[1] + 1) * resolutionY);
+		}
+		
+		public void drawCharacterImage(char representation, int[] coords) {
+			
+			Graphics2D g = this.createGraphics();
+			
+			BufferedImage img = null;
+			try {
+				switch(representation) {
+				case 'Z':
+				case 'z':
+					img = ImageIO.read(new File("src/zombie.png"));
+					break;
+				case 'H':
+				case 'h':
+					img = ImageIO.read(new File("src/beiber.jpg")); //you're welcome
+					break;
+				case 'F':
+				case 'f':
+					img = ImageIO.read(new File("src/pear.png"));
+					break;
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			g.drawImage(img, coords[0] * resolutionX, (coords[1]) * resolutionY, null);
 		}
 		
 		public void drawSquare(int[] coords, boolean traversable){

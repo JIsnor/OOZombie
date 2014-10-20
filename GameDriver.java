@@ -10,7 +10,7 @@ public class GameDriver {
 	private final static int FRAME_LENGTH = 150;
 	
 	//contains game state and methods to initialize game
-	Model model = new Model();
+	Model model = new Model(new File("src/GameData"));
 	
 	//view is an extension of a JFrame
 	GameFrame view = new GameFrame(model.DIMENSION_X, model.DIMENSION_Y); 
@@ -20,6 +20,7 @@ public class GameDriver {
 	
 	//fill the view with the contents of the model
 	void initializeBoard(){
+		
 		for(int x = 0; x < model.DIMENSION_X; x++){
 			for(int y = 0; y < model.DIMENSION_Y; y++){
 				int[] coords = new int[]{x, y};
@@ -43,8 +44,9 @@ public class GameDriver {
 	
 		dirtySquares.clear();
 		
-		for (Entity entity : model.entities){		
-			view.addCharacter(entity.getCharRepresentation(), entity.getCoords());
+		for (Entity entity : model.entities){
+//			System.out.println(entity.getCharRepresentation());
+			view.addCharacterImage(entity.getCharRepresentation(), entity.getCoords());
 		}
 		view.repaint();
 	}
@@ -55,52 +57,109 @@ public class GameDriver {
 			
 			//keep track of entity's original position so we can clean it later
 			int[] originalCoords = new int[]{entity.coords[0], entity.coords[1]};
+			int newX = 0, newY = 0;
 			
 			if(entity instanceof Zombie){
 				//Keep Zombie on the board
-				int newX, newY;
 				int[] potentialOffsets;
 				potentialOffsets = ((Zombie) entity).saunter();
 				newX = originalCoords[0] + potentialOffsets[0];
 				newY = originalCoords[1] + potentialOffsets[1];
 				
-				entity.setCoords(newX, newY, model.DIMENSION_X, model.DIMENSION_Y);
-				dirtySquares.add(originalCoords);
+				//remove this if - zombies can walk through walls
+				if (canMove(newX, newY)) {
+					entity.setCoords(newX, newY, model.DIMENSION_X,
+							model.DIMENSION_Y);
+					dirtySquares.add(originalCoords);
+				}
 			}
 			
 			if(entity instanceof Human){
 				Direction movement = Direction.intToDirection(view.getKey());
+				
 				if(movement != null){
-					System.out.println("Moved: " + movement);
-					//keep humans in check
-					((Human) entity).move(movement, model.DIMENSION_X, model.DIMENSION_Y);
+					
+					//Wall detection
+					switch(movement) {
+					
+					case UP:
+						newX = originalCoords[0];
+						newY = originalCoords[1] - 1;
+						break;
+					case RIGHT:
+						newX = originalCoords[0] + 1;
+						newY = originalCoords[1];
+						break;
+					case LEFT:
+						newX = originalCoords[0] - 1;
+						newY = originalCoords[1];
+						break;
+					case DOWN:
+						newX = originalCoords[0];
+						newY = originalCoords[1] + 1;
+						break;
+					}
+					
+					//wall detection cntd.
+					if (canMove(newX, newY)) {
+						//					System.out.println("Moved: " + movement);
+						//keep humans in check
+						((Human) entity).move(movement, model.DIMENSION_X, model.DIMENSION_Y);
+						
+					}
 					dirtySquares.add(originalCoords);
 				}
 			}
 		}
 	}
+	
+	//Here to prevent movement into walls
+	boolean canMove(int potentialX, int potentialY) {
+		
+		for(int[] wall : model.walls) {
+			
+			if(potentialX == wall[0] && potentialY == wall[1]) {
+				return false;
+			}
+		}
+		
+		return true;
+	}
 
 	void eatHumansAndFruit() {
+		
+		ArrayList<Entity> toRemove = new ArrayList<Entity>();
 		
 		for(Entity e : model.entities) {
 			
 			if(e instanceof Human) {
 				
 				for(Entity e2 : model.entities) {
-					
 					if(e2 instanceof Zombie 
 							&& e.getCoords()[0] == e2.getCoords()[0] 
 							&& e.getCoords()[1] == e2.getCoords()[1]) {
-						zombieBitesHuman((Zombie) e2, (Human) e);
+						((Human) e).getBitten((Zombie) e2);
+						toRemove.add(e);
+//						zombieBitesHuman((Zombie) e2, (Human) e); concurrent modification
+						
 					}
 					
 					if(e2 instanceof Fruit 
 							&& e.getCoords()[0] == e2.getCoords()[0] 
 							&& e.getCoords()[1] == e2.getCoords()[1]) {
-						humanEatsFruit((Human) e, (Fruit) e2);
+						((Human) e).eatFruit((Fruit) e2);;
+						toRemove.add(e2);
+						dirtySquares.add(((Fruit) e2).coords);
+//						humanEatsFruit((Human) e, (Fruit) e2);
 					}
 				}
 			}
+		}
+		
+		//This is necessary to avoid concurrent modification
+		for(Entity e : toRemove) {
+			
+			model.entities.remove(e);
 		}
 	}
 
@@ -128,10 +187,14 @@ public class GameDriver {
 			anyHumans = anyHumans || entity instanceof Human;
 		}
 		
+		System.out.println("Any Humans? "+ anyHumans);
+		
 		boolean anyFruits = false;
 		for(Entity entity: model.entities){
 			anyFruits = anyFruits || entity instanceof Fruit;
 		}
+		
+		System.out.println("Any Fruit? "+ anyFruits);
 		
 		return !anyFruits || !anyHumans;
 	}

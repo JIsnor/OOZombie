@@ -12,7 +12,7 @@ public enum Representation {
 		case WALL:
 			return 'W';
 		case FRUIT:
-			return 'W';
+			return 'F';
 		default:
 			return 'U';
 		}
@@ -31,6 +31,9 @@ public enum Representation {
 		case "F":
 		case "f":
 			return FRUIT;
+		case "W":
+		case "w":
+			return WALL;
 		default:
 			return null;
 		}
