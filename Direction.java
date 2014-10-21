@@ -8,7 +8,11 @@
 public enum Direction {
 	UP, LEFT, DOWN, RIGHT;
 	
-	//convert an arrow key integer value to a Direction
+	/**
+	 * Deals with keyboard input
+	 * @param key keystroke int, passed from KeyEvent
+	 * @return direction corresponding to keystroke int, if applicable int
+	 */
 	public static Direction intToDirection(int key){
 		switch(key){
 		case 37:

@@ -6,7 +6,15 @@ public class Human extends Entity {
 		super(Representation.HUMAN, initCoords);
 		health = 100;		
 	}
+	
+	public Human(int x, int y) {
+		super(Representation.HUMAN, new int[]{x,y});
+	}
 
+	/**
+	 * Adds health to human
+	 * @param fruit
+	 */
 	public void eatFruit(Fruit fruit) {
 		health += fruit.getNutrition();
 	}

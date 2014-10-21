@@ -24,7 +24,11 @@ import javax.imageio.ImageIO;
 			this.resolutionY = resolutionY;
 		}
 
-		//add a single image to our image, determined by the representation parameter
+		/**
+		 * Draws the icons (the human, zombies, fruit(s))
+		 * @param representation What kind of Entity to draw
+		 * @param coords coordinates of Entity
+		 */
 		public void drawCharacterImage(Representation representation, int[] coords) {
 			
 			Graphics2D g = this.createGraphics();
@@ -49,7 +53,11 @@ import javax.imageio.ImageIO;
 			g.drawImage(img, coords[0] * resolutionX, (coords[1]) * resolutionY, null);
 		}
 
-		//add a single square to our image to represent a floor or a wall
+		/**
+		 * Draws the squares that compose the board
+		 * @param coords coordinates of the square : a size-2 array.
+		 * @param traversable whether or not this tile is traversable
+		 */
 		public void drawSquare(int[] coords, boolean traversable){
 			Graphics2D g2 = this.createGraphics();
 
@@ -62,7 +70,10 @@ import javax.imageio.ImageIO;
 			g2.fillRect(coords[0] * resolutionX, coords[1] * resolutionY, resolutionX, resolutionY);
 		}
 
-		//display victory/loss image
+		/**
+		 * Displays end of the game image
+		 * @param victory true or false if the game is over
+		 */
 		public void showEndImage(boolean victory) {
 			String filename;
 				if(victory){

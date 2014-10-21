@@ -11,7 +11,7 @@ public class TestZombie {
 	@Before
 	public void setUp() throws Exception {
 
-		z = new Zombie(0, 0, "test");
+		z = new Zombie(new int[]{0,0});
 	}
 
 	@After
@@ -29,17 +29,17 @@ public class TestZombie {
 	}
 	
 	
-	@Test
-	public void testZombie() {
-		assertFalse("Zombie name is null: ", z.name.equals(null));
-	}
+//	@Test
+//	public void testZombie() {
+//		assertFalse("Zombie name is null: ", z.name.equals(null));
+//	}
 
 	@Test
 	public void testSaunter() {
 
 		int oldX = z.coords[0];
 		int oldY = z.coords[1];
-		z.saunter();
+		z.getMoveInDirection(Direction.UP);
 		assertTrue("Zombie saunter moved ZombieX: ", oldX != z.coords[0]);
 		assertTrue("Zombie saunter moved ZombieY: ", oldY != z.coords[1]);
 	}

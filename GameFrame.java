@@ -53,10 +53,20 @@ public class GameFrame extends JFrame implements KeyListener {
 				+ numPearsCollected + " out of " + numPearsTotal + " pears.");
 	}
 
+	/**
+	 * Adds character image to the GameFrame
+	 * @param representation representation of character to add
+	 * @param coords coordinates at which to draw the character image.
+	 */
 	public void addCharacterImage(Representation representation, int[] coords) {
 		buffImage.drawCharacterImage(representation, coords);
 	}
-
+	
+	/**
+	 * Draws a square on the GameFrame
+	 * @param coords coordinates to add the square
+	 * @param traversable true if this tile is traversable
+	 */
 	public void addSquare(int[] coords, boolean traversable) {
 		buffImage.drawSquare(coords, traversable);
 	}

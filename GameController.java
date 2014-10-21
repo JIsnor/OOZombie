@@ -40,6 +40,10 @@ public class GameController {
 	
 	//redraw the view to reflect moved entities, and also paint over their old positions
 	//finally, update the health/progress information at the bottom of the frame
+	/**
+	 * Updates the view, i.e. paints/repaints the board, draws
+	 * character images
+	 */
 	private void updateView(){
 		
 		for (int[] coords : dirtySquares){
@@ -58,6 +62,10 @@ public class GameController {
 	
 	//iterate through the ArrayList of entities and move each Human and Zombie
 	//check each move's legality before actually moving that entity
+	/**
+	 * Move all of the entities: this includes the Zombies sauntering 
+	 * and the Humans responding to keystrokes
+	 */
 	private void moveEntities(){
 		
 		Direction direction = Direction.intToDirection(view.getKey());

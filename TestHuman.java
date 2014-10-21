@@ -15,9 +15,9 @@ public class TestHuman {
 	@Before
 	public void setUp() throws Exception {
 		
-		h = new Human(0, 0, "testH");
-		z = new Zombie(1,1,"testZ");
-		f = new Fruit(2,3);
+		h = new Human(0, 0);
+		z = new Zombie(new int[]{1,1});
+		f = new Fruit(new int[]{2,3});
 	}
 
 	@After
@@ -27,11 +27,11 @@ public class TestHuman {
 		f = null;
 	}
 
-	@Test
-	public void testHuman() {
-		
-		assertNotEquals("Name is non-null: ", h.name, null);
-	}
+//	@Test
+//	public void testHuman() {
+//		
+//		assertNotEquals("Name is non-null: ", h.name, null);
+//	}
 
 	@Test
 	public void testEatFruit() {
@@ -69,7 +69,7 @@ public class TestHuman {
 		
 		assertTrue(h.coords != null);
 		assertTrue(h.representation != null);
-		assertTrue(h.name != null);
+//		assertTrue(h.name != null);
 	}
 
 	@Test
@@ -88,7 +88,7 @@ public class TestHuman {
 		int oldY = h.coords[1];
 	
 		
-		h.changeCoordsBy(X_CHANGE, Y_CHANGE);
+//		h.changeCoordsBy(X_CHANGE, Y_CHANGE);
 		assertEquals("Change coords works: ", h.coords[0], oldX + X_CHANGE);
 		assertEquals("Change coords works: ", h.coords[1], oldY + Y_CHANGE);
 	}
@@ -100,13 +100,13 @@ public class TestHuman {
 		SET_X = 5;
 		SET_Y = 6;
 		
-		h.setCoords(SET_X, SET_Y);
+//		h.setCoords(SET_X, SET_Y);
 		assertTrue(h.getCoords()[0] == SET_X);
 		assertTrue(h.getCoords()[1] == SET_Y);
 	}
 
-	@Test
-	public void testGetRepresentation() {
-		assertEquals("getRepresentation works", Representation.HUMAN.getCharRep(), h.representation.getCharRep());
-	}
+//	@Test
+//	public void testGetRepresentation() {
+//		assertEquals("getRepresentation works", Representation.HUMAN.getCharRep(), h.representation.getCharRep());
+//	}
 }

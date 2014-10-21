@@ -10,7 +10,7 @@ public class TestFruit{
 
 	@Before
 	public void setUp() throws Exception {
-		f = new Fruit(0, 0);
+		f = new Fruit(new int[]{0,0});
 	}
 
 	@After

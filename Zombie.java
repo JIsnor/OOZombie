@@ -10,6 +10,9 @@ public class Zombie extends Entity {
 		super(Representation.ZOMBIE, coords);
 	}
 	
+	public Zombie(int x, int y) {
+		super(Representation.ZOMBIE, new int[]{x,y});
+	}
 	//breadth-first search to find first movement along shortest path from zombie to human
 	public int[] getPotentialSaunter(boolean[][] grid, int[] humanCoords){
 

@@ -1,6 +1,6 @@
 
 public enum Representation {
-	ZOMBIE, HUMAN, FRUIT;
+	ZOMBIE, HUMAN, FRUIT, WALL;
 	
 	//convert a string to its corresponding Representation
 	public static Representation stringToRep(String s) {
@@ -15,6 +15,9 @@ public enum Representation {
 		case "F":
 		case "f":
 			return FRUIT;
+		case "W":
+		case "w":
+			return WALL;
 		default:
 			System.out.println("error in Representation.stringToRep():\n  invalid string " + s);
 			System.exit(-1);

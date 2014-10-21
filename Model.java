@@ -42,8 +42,6 @@ public class Model {
 	public void getModelFromFile(File inFile) {
 		
 		int numEntities;
-	
-		//TODO: actually make the scanner read the boolean grid
 		
 		for(boolean[] row : grid){
 			Arrays.fill(row, true);
@@ -75,6 +73,9 @@ public class Model {
 					e = new Fruit(initCoords);
 					entities.add(e);
 					totalFruits++;
+					break;
+				case WALL:
+					grid[initCoords[0]][initCoords[1]] = false;
 					break;
 				default:
 					System.err.println("bad token in game file - Use H, Z, or F");
