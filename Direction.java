@@ -7,12 +7,8 @@
 
 public enum Direction {
 	UP, LEFT, DOWN, RIGHT;
-
-	public static Direction randomDirection() {
-		Direction[] directions = Direction.values();
-		return directions[(int) (Math.random() * directions.length)];
-	}
 	
+	//convert an arrow key integer value to a Direction
 	public static Direction intToDirection(int key){
 		switch(key){
 		case 37:
@@ -24,6 +20,7 @@ public enum Direction {
 		case 40:
 			return Direction.DOWN;
 		default:
+			//this case is permissible because our game should be able to ignore garbage key inputs
 			return null;
 		}
 	}

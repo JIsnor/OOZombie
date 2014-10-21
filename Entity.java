@@ -8,98 +8,91 @@
  */
 
 /**
- * The top of the hierarchy, an Entity is a char with an x,y position
- * and a name. The Representation denotes what the entity is, e.g. Zombie, Human.
- * Additionally, they have names, e.g. Hunter Bill --> (Representation.HUMAN, x, y, "Bill")
+ * The top of the hierarchy, an Entity is a char with an x,y position.
+ * The Representation denotes what the entity is, e.g. Zombie, Human.
  * @author James Isnor and Benji
  *
  */
 public class Entity {
 	
-	//to use with our array of coords
-	private final int X = 0;
-	private final int Y = 1;
+	//to cleanly index into our coord 2-tuples
+	final int X = 0;
+	final int Y = 1;
 	
 	protected Representation representation;
 	protected int[] coords;
-	protected String name = null;
-	
+
 	/**
 	 * The only constructor for Entities.
 	 * @param representation - the character associated with what kind of Entity
 	 * this is, e.g. 'Z', 'H', etc.
-	 * @param x - the coordinate
-	 * @param y - the y coordinate
-	 * @param name - the Entity's name
+	 * @param coords - the initial coordinates
 	 */
-	public Entity(Representation representation, int x, int y, String name) {
+	public Entity(Representation representation, int[] coords) {
+
+		if(coords == null || coords.length != 2){
+			Thread.currentThread().getStackTrace();
+			System.out.println("hit an error 1");
+			System.exit(-1);
+		}
+		
 		this.representation = representation;
-		this.name = name;
-		coords = new int[2];
-		coords[X] = x;
-		coords[Y] = y;
+		this.coords = coords;
 	}
 	
 	/**
-	 * Change the coordinates of the Entity by the specified
-	 * amounts. 
-	 * @deprecated ma-faka doesn't take bounds into account
-	 * @param x the value to add to the x coord of this Entity
-	 * @param y the value to add to the y coord of this Entity
+	 * Calculate new coordinates as though the entity had moved in some direction.
+	 * Note that this does not actually move the Entity.
+	 * @param d - the direction of motion
 	 */
-	public void changeCoordsBy(int xOffset, int yOffset) {
-		coords[X] += xOffset;
-		coords[Y] += yOffset;
+
+public int[] getMoveInDirection(Direction d) {
+		
+		if(d == null){
+			return getCoords();			
+		}
+		
+		switch (d) {
+			case UP:
+				return getShiftedCoords(0, -1);
+			case DOWN:
+				return getShiftedCoords(0, 1);
+			case LEFT:
+				return getShiftedCoords(-1, 0);
+			case RIGHT:
+				return getShiftedCoords(1, 0);
+			default:
+				Tools.printStackTrace();
+				System.exit(-1);
+				//unreachable, but satisfies the compiler
+				return null;
+		}		
 	}
 	
-	/**
-	 * Change the coordinates of the Entity by the specified
-	 * amounts. 
-	 * @param x the value to add to the x coord of this Entity
-	 * @param y the value to add to the y coord of this Entity
-	 */
-	public void changeCoordsBy(int xOffset, int yOffset, int xBound, int yBound) {
-		int x = coords[X] + xOffset;
-		int y = coords[Y] + yOffset;
-		if(x >= 0 && x < xBound) {
-			coords[X] = x;
-		}
-		if(y >= 0 && y < yBound) {
-			coords[Y] = y;
-		}
+	public int[] getShiftedCoords(int xOffset, int yOffset) {
+		return new int[] {coords[X] + xOffset, coords[Y] + yOffset};
 	}
+
 	
 	//BELOW THIS LINE LIE GETTERS AND SETTERS (AND RED-SWEATERS)
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	
 	public void setCoords(int[] coords) {
+
+		if(coords == null || coords.length != 2){
+			Thread.currentThread().getStackTrace();
+			System.out.println("hit an error 2");
+			System.exit(-1);
+		}
+		
 		this.coords = coords;
 	}
-	
-	/**
-	 * @deprecated doesn't take bounds into account
-	 * @param x
-	 * @param y
-	 */
-	public void setCoords(int x, int y) {
-		coords[X] = x;
-		coords[Y] = y;
-	}
-	
-	public void setCoords(int x, int y, int xBound, int yBound) {
-		if(x >= 0 && x < xBound) {
-			coords[X] = x;
-		}
-		if(y >= 0 && y < yBound) {
-			coords[Y] = y;
-		}
-	}
-		
-	public char getCharRepresentation() {
-		return representation.getCharRep();
-	}
-	
+
 	public int[] getCoords() {
-		return coords;
+		return new int[] {coords[X], coords[Y]};
+	}
+	
+	public Representation getRepresentation() {
+		return representation;
 	}
 }

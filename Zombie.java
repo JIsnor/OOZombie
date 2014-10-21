@@ -1,19 +1,22 @@
+import java.util.ArrayList;
+
 
 public class Zombie extends Entity {
 	
 	final int damageInflicted = 10;
 	
-	public Zombie(int x, int y, String name) {
-		super(Representation.ZOMBIE, x, y, name);
+	
+	public Zombie(int[] coords) {
+		super(Representation.ZOMBIE, coords);
 	}
 	
-	public int[] saunter() {
-		//generate random x and y offsets in the range (-1, 1)
-		int xOffset = ((int) (Math.random()*2.5)) - 1;
-		int yOffset = ((int) (Math.random()*2.5)) - 1;
-		
-		return new int[]{xOffset, yOffset};
+	//breadth-first search to find first movement along shortest path from zombie to human
+	public int[] getPotentialSaunter(boolean[][] grid, int[] humanCoords){
+
+		Direction direction = ZombieMovementBFS.getDirectionTowardsHuman(grid, coords, humanCoords);
+		return getMoveInDirection(direction);
 	}
+	
 	
 	public int getDamageInflicted() {
 		return damageInflicted;

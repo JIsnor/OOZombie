@@ -13,6 +13,8 @@ import javax.imageio.ImageIO;
 
 	class GameBufferedImage extends BufferedImage {
 
+		//these variables store the number of pixels per square,
+		//and are used to calculate pixel offsets for drawing
 		private int resolutionX;
 		private int resolutionY;
 
@@ -22,34 +24,21 @@ import javax.imageio.ImageIO;
 			this.resolutionY = resolutionY;
 		}
 
-		public void drawCharacter(char representation, int[] coords) {
-			Graphics2D g2 = this.createGraphics();
-
-			Color color = Color.BLACK;
-
-			g2.setPaint(color);
-			g2.setFont(new Font(Font.MONOSPACED, Font.BOLD, resolutionY));
-
-			g2.drawString("" + representation, coords[0] * resolutionX, (coords[1] + 1) * resolutionY);
-		}
-		
-		public void drawCharacterImage(char representation, int[] coords) {
+		//add a single image to our image, determined by the representation parameter
+		public void drawCharacterImage(Representation representation, int[] coords) {
 			
 			Graphics2D g = this.createGraphics();
-			
 			BufferedImage img = null;
+			
 			try {
 				switch(representation) {
-				case 'Z':
-				case 'z':
+				case ZOMBIE:
 					img = ImageIO.read(new File("src/zombie.png"));
 					break;
-				case 'H':
-				case 'h':
+				case HUMAN:
 					img = ImageIO.read(new File("src/beiber.jpg")); //you're welcome
 					break;
-				case 'F':
-				case 'f':
+				case FRUIT:
 					img = ImageIO.read(new File("src/pear.png"));
 					break;
 				}
@@ -59,17 +48,37 @@ import javax.imageio.ImageIO;
 			
 			g.drawImage(img, coords[0] * resolutionX, (coords[1]) * resolutionY, null);
 		}
-		
+
+		//add a single square to our image to represent a floor or a wall
 		public void drawSquare(int[] coords, boolean traversable){
 			Graphics2D g2 = this.createGraphics();
 
-			Color color = Color.RED;
+			Color color = Color.BLACK;
 			if(traversable){
-				color = Color.GREEN;
+				color = Color.WHITE;
 			}
 			
 			g2.setPaint(color);
-			
 			g2.fillRect(coords[0] * resolutionX, coords[1] * resolutionY, resolutionX, resolutionY);
+		}
+
+		//display victory/loss image
+		public void showEndImage(boolean victory) {
+			String filename;
+				if(victory){
+				filename = "src/victory.jpg";
+			}
+			else{
+				filename = "src/defeat.jpg";
+			}
+			
+			Graphics2D g = this.createGraphics();
+			BufferedImage image = null;
+
+			try {
+				image = ImageIO.read(new File(filename));
+			} catch (IOException e) {}
+			
+			g.drawImage(image, 0, 0, null);
 		}
 	}
